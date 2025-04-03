@@ -22,4 +22,13 @@ public class No {
                 "\nfatorBalanceamento=" + fatorBalanceamento +
                 "\n}";
     }
+
+    public void removerFilho(No filho){
+        if(filho != null && filhoEsquerdo != null && filhoEsquerdo.valor == filho.valor) {
+            filhoEsquerdo = null;
+            return;
+        }
+
+        filhoDireito = null;
+    }
 }
