@@ -153,18 +153,47 @@ public class Arvore {
     }
 
     public void listarPreOrdem() {
+        listarPreOrdem(raiz);
+        System.out.println();
+    }
 
+    private void listarPreOrdem(No no) {
+        if (no == null) return;
+
+        System.out.print(no.valor + " ");
+
+        listarPreOrdem(no.filhoEsquerdo);
+        listarPreOrdem(no.filhoDireito);
     }
 
     public void listarPosOrdem() {
+        listarPosOrdem(raiz);
+        System.out.println();
+    }
 
+    private void listarPosOrdem(No no) {
+        if (no == null) return;
+
+        listarPosOrdem(no.filhoEsquerdo);
+        listarPosOrdem(no.filhoDireito);
+        System.out.print(no.valor + " ");
     }
 
     public void listarEmOrdem() {
+        listarEmOrdem(raiz);
+        System.out.println();
+    }
 
+    private void listarEmOrdem(No no) {
+        if (no == null) return;
+
+        listarEmOrdem(no.filhoEsquerdo);
+        System.out.print(no.valor + " ");
+        listarEmOrdem(no.filhoDireito);
     }
 
     public void printar(){
+
         printar(raiz, 0);
     }
 

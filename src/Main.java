@@ -19,6 +19,9 @@ public class Main {
         arvore.inserir(22);
 
         arvore.atualizarBalanceamento(raiz);
+        arvore.listarPreOrdem();
+        arvore.listarEmOrdem();
+        arvore.listarPosOrdem();
         arvore.printar();
 
 //        arvore.remover(15);
