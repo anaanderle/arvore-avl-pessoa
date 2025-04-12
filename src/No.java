@@ -2,13 +2,15 @@ public class No {
     public int valor;
     public No filhoEsquerdo;
     public No filhoDireito;
-    public int fatorBalanceamento;
+    public int nivelEsquerdo;
+    public int nivelDireito;
 
-    public No(int valor, No filhoEsquerdo, No filhoDireito, int fatorBalanceamento) {
+    public No(int valor, No filhoEsquerdo, No filhoDireito, int nivelEsquerdo, int nivelDireito) {
         this.valor = valor;
         this.filhoEsquerdo = filhoEsquerdo;
         this.filhoDireito = filhoDireito;
-        this.fatorBalanceamento = fatorBalanceamento;
+        this.nivelEsquerdo = nivelEsquerdo;
+        this.nivelDireito = nivelDireito;
     }
 
     public String toString() {
@@ -19,7 +21,7 @@ public class No {
                 "\nvalor=" + valor +
                 "\nfilhoEsquerdo=" + filhoEsquerdoString +
                 "\nfilhoDireito=" + filhoDireitoString +
-                "\nfatorBalanceamento=" + fatorBalanceamento +
+                "\nfatorBalanceamento=" + fatorBalanceamento() +
                 "\n}";
     }
 
@@ -30,5 +32,25 @@ public class No {
         }
 
         filhoDireito = null;
+    }
+
+    public int fatorBalanceamento(){
+        return nivelEsquerdo - nivelDireito;
+    }
+
+    public No getMaiorSubArvore() {
+        if(nivelEsquerdo == 0 && nivelDireito == 0) return null;
+        if(nivelDireito > nivelEsquerdo) return filhoDireito;
+        return filhoEsquerdo;
+    }
+
+    public No getMenorSubArvore() {
+        if(nivelEsquerdo == 0 && nivelDireito == 0) return null;
+        if(nivelDireito > nivelEsquerdo) return filhoEsquerdo;
+        return filhoDireito;
+    }
+
+    public int maiorNivelSubArvore(){
+        return Math.max(nivelDireito, nivelEsquerdo);
     }
 }

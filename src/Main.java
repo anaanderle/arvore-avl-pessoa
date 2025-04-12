@@ -3,8 +3,8 @@ import java.util.Arrays;
 public class Main {
     public static void main(String[] args) {
 //        No filhoEsquerdo2 = new No(15, null, null, 0);
-        No filhoEsquerdo1 = new No(25, null, null, 0);
-        No raiz = new No(50, filhoEsquerdo1, null, 0);
+//        No filhoEsquerdo1 = new No(25, null, null, 0);
+        No raiz = new No(50, null, null, 0, 0);
 
         Arvore arvore = new Arvore(raiz);
 
@@ -16,12 +16,21 @@ public class Main {
         arvore.inserir(20);
         arvore.inserir(40);
         arvore.inserir(45);
-        arvore.inserir(22);
+        arvore.inserir(24);
+        arvore.inserir(75);
+        arvore.inserir(58);
+        arvore.inserir(15);
+        arvore.inserir(12);
 
-        arvore.atualizarBalanceamento(raiz);
+//        arvore.atualizarBalanceamento(raiz);
         arvore.listarPreOrdem();
         arvore.listarEmOrdem();
         arvore.listarPosOrdem();
+        arvore.printar();
+
+//        arvore.remover(50);
+
+        arvore.atualizarBalanceamento();
         arvore.printar();
 
 //        arvore.remover(15);
