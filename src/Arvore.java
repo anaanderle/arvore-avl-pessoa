@@ -66,7 +66,7 @@ public class Arvore {
         return null;
     }
 
-    private No inserir(No no, No noParaInserir){
+    private No inserir(No no, No noParaInserir, boolean permiteRebalanceamento){
         if(no == null || noParaInserir == null) return null;
 
         if(no.valor > noParaInserir.valor && no.filhoEsquerdo == null) {
@@ -80,16 +80,16 @@ public class Arvore {
         }
 
         if(no.valor > noParaInserir.valor) {
-            No noRetorno = inserir(no.filhoEsquerdo, noParaInserir);
+            No noRetorno = inserir(no.filhoEsquerdo, noParaInserir, permiteRebalanceamento);
             if(no.filhoEsquerdo.valor == noRetorno.valor) no.nivelEsquerdo = noRetorno.maiorNivelSubArvore() + 1;
-            balancear(no);
+            if(permiteRebalanceamento) balancear(no);
             return no;
         }
 
         if(no.valor < noParaInserir.valor) {
-            No noRetorno = inserir(no.filhoDireito, noParaInserir);
+            No noRetorno = inserir(no.filhoDireito, noParaInserir, permiteRebalanceamento);
             if(no.filhoDireito.valor == noRetorno.valor) no.nivelDireito = noRetorno.maiorNivelSubArvore() + 1;
-            balancear(no);
+            if(permiteRebalanceamento) balancear(no);
             return no;
         }
 
@@ -131,7 +131,7 @@ public class Arvore {
             No menor = no.getMenorSubArvore();
 
             raiz = maior;
-            if(conectarFilhos) inserir(raiz, menor);
+            if(conectarFilhos) inserir(raiz, menor, true);
 
             return;
         }
@@ -141,8 +141,8 @@ public class Arvore {
         if(conectarFilhos){
             No maior = no.getMaiorSubArvore();
             No menor = no.getMenorSubArvore();
-            inserir(raiz, maior);
-            inserir(raiz, menor);
+            inserir(raiz, maior, true);
+            inserir(raiz, menor, true);
         }
 
         balancear(pai);
@@ -165,27 +165,27 @@ public class Arvore {
     }
 
     // nomear melhor
-    private void rotacaoSimplesDireita(No no) {
+    private void rotacaoSimplesDireita(No no, boolean permiteRebalanceamento) {
         if(no == null)  return;
         No antigoDireito =  no.filhoEsquerdo == null ? null : no.filhoEsquerdo.filhoDireito;
         remover(no.valor, false);
         if(no.filhoEsquerdo != null) no.filhoEsquerdo.adicionarFilhoDireito(null);
-        inserir(raiz, no.filhoEsquerdo);
+        inserir(raiz, no.filhoEsquerdo, permiteRebalanceamento);
         no.adicionarFilhoEsquerdo(null);
-        inserir(raiz, no);
-        inserir(raiz, antigoDireito);
+        inserir(raiz, no, permiteRebalanceamento);
+        inserir(raiz, antigoDireito, permiteRebalanceamento);
     }
 
     // nomear melhor
-    private void rotacaoSimplesEsquerda(No no) {
+    private void rotacaoSimplesEsquerda(No no, boolean permiteRebalanceamento) {
         if(no == null)  return;
         No antigoEsquerdo =  no.filhoDireito == null ? null : no.filhoDireito.filhoEsquerdo;
         remover(no.valor, false);
         if(no.filhoDireito != null) no.filhoDireito.adicionarFilhoEsquerdo(null);
-        inserir(raiz, no.filhoDireito);
+        inserir(raiz, no.filhoDireito, permiteRebalanceamento);
         no.adicionarFilhoDireito(null);
-        inserir(raiz, no);
-        inserir(raiz, antigoEsquerdo);
+        inserir(raiz, no, permiteRebalanceamento);
+        inserir(raiz, antigoEsquerdo, permiteRebalanceamento);
     }
 
     public void balancear(No no) {
@@ -196,16 +196,16 @@ public class Arvore {
         int fbd = no.filhoDireito == null ? 0 : no.filhoDireito.fatorBalanceamento();
 
         if(Utils.ehPositivoOuZero(fb) && Utils.ehPositivoOuZero(fbe) && fb > fbe) {
-            rotacaoSimplesDireita(no);
+            rotacaoSimplesDireita(no, true);
         }
         else if (Utils.ehNegativoOuZero(fb) && Utils.ehNegativoOuZero(fbd) && fb < fbd) {
-            rotacaoSimplesEsquerda(no);
+            rotacaoSimplesEsquerda(no, true);
         } else if (Utils.ehPositivoOuZero(fb) && Utils.ehNegativoOuZero(fbe)) {
-            rotacaoSimplesEsquerda(no.filhoEsquerdo);
-            rotacaoSimplesDireita(no);
+            rotacaoSimplesEsquerda(no.filhoEsquerdo, false);
+            rotacaoSimplesDireita(no, true);
         } else if (Utils.ehNegativoOuZero(fb) && Utils.ehPositivoOuZero(fbd)) {
-            rotacaoSimplesDireita(no.filhoDireito);
-            rotacaoSimplesEsquerda(no);
+            rotacaoSimplesDireita(no.filhoDireito, false);
+            rotacaoSimplesEsquerda(no, true);
         }
     }
 

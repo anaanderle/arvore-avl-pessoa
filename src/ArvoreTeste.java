@@ -45,7 +45,6 @@ class ArvoreTeste {
         baseTeste(new int[]{120, 110, 150, 80, 130, 200, 100}, new int[]{}, preOrdemEsperada, "rotacaoDuplaDireitaSlide25");
     }
 
-    // erro acontece pq no meio do balanceamento está ocorrendo outro balanceamento
     public static void rotacaoDuplaDireitaSlide29() {
         String preOrdemEsperada = "27 15 6 42 34 88";
         baseTeste(new int[]{42, 15, 88, 6, 27, 34}, new int[]{}, preOrdemEsperada, "rotacaoDuplaDireitaSlide29");
