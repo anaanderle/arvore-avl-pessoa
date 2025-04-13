@@ -11,6 +11,16 @@ public class Main {
         ArvoreTeste.rotacaoDuplaEsquerdaSlide32();
         ArvoreTeste.exclusaoSlide38SemExcluir();
         ArvoreTeste.exclusaoSlide38();
+        ArvoreTeste.caso1();
+        ArvoreTeste.caso2();
+        ArvoreTeste.caso3();
+        ArvoreTeste.caso4();
+        ArvoreTeste.caso5();
+        ArvoreTeste.caso6();
+        ArvoreTeste.caso7();
+        ArvoreTeste.caso8();
+        ArvoreTeste.caso9();
+        ArvoreTeste.caso10();
 
 //        arvore.listarPreOrdem();
 //        arvore.listarEmOrdem();
