@@ -18,24 +18,43 @@ public class No {
         String filhoDireitoString = this.filhoDireito == null ? "null" : String.valueOf(this.filhoDireito.valor);
 
         return "No{" +
-                "\nvalor=" + valor +
-                "\nfilhoEsquerdo=" + filhoEsquerdoString +
-                "\nfilhoDireito=" + filhoDireitoString +
-                "\nfatorBalanceamento=" + fatorBalanceamento() +
+                "\n\tvalor=" + valor +
+                "\n\tfilhoEsquerdo=" + filhoEsquerdoString +
+                "\n\tfilhoDireito=" + filhoDireitoString +
+                "\n\tnivelEsquerdo=" + nivelEsquerdo +
+                "\n\tnivelDireito=" + nivelDireito +
+                "\n\tfatorBalanceamento=" + fatorBalanceamento() +
                 "\n}";
     }
 
     public void removerFilho(No filho){
         if(filho != null && filhoEsquerdo != null && filhoEsquerdo.valor == filho.valor) {
             filhoEsquerdo = null;
+            nivelEsquerdo = 0;
             return;
         }
 
         filhoDireito = null;
+        nivelDireito = 0;
+    }
+
+    public void adicionarFilhoEsquerdo(No no){
+        filhoEsquerdo = no;
+        nivelEsquerdo = no == null ? 0 : (no.maiorNivelSubArvore() + 1);
+    }
+
+    public void adicionarFilhoDireito(No no){
+        filhoDireito = no;
+        nivelDireito = no == null ? 0 : (no.maiorNivelSubArvore() + 1);
     }
 
     public int fatorBalanceamento(){
         return nivelEsquerdo - nivelDireito;
+    }
+
+    public boolean fatorBalanceamentoAceitavel(){
+        int fatorBalanceamento = fatorBalanceamento();
+        return fatorBalanceamento >= -1 && fatorBalanceamento <= 1;
     }
 
     public No getMaiorSubArvore() {
