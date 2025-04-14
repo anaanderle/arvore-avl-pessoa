@@ -21,6 +21,7 @@ public class Main {
         ArvoreTeste.caso8();
         ArvoreTeste.caso9();
         ArvoreTeste.caso10();
+        ArvoreTeste.caso11();
 
 //        arvore.listarPreOrdem();
 //        arvore.listarEmOrdem();

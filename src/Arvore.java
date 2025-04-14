@@ -25,12 +25,16 @@ public class Arvore {
     }
 
     private No buscarPai(No no, int valor) {
+        // nó não pode ser pai de ninguém
         if(no == null || (no.filhoDireito == null && no.filhoEsquerdo == null)) return null;
 
-        if(no.filhoEsquerdo != null && no.filhoEsquerdo.valor == valor) return no;
-        if(no.filhoDireito != null && no.filhoDireito.valor == valor) return no;
-        if(no.filhoEsquerdo != null && no.valor >= valor) return buscarPai(no.filhoEsquerdo, valor);
-        if(no.filhoDireito != null && no.valor <= valor) return buscarPai(no.filhoDireito, valor);
+        // nó é pai
+        if(no.valor > valor && no.filhoEsquerdo != null && no.filhoEsquerdo.valor == valor) return no;
+        if(no.valor < valor && no.filhoDireito != null && no.filhoDireito.valor == valor) return no;
+
+        // nó não é pai mas possui filhos que podem ser
+        if(no.valor > valor) return buscarPai(no.filhoEsquerdo, valor);
+        if(no.valor < valor) return buscarPai(no.filhoDireito, valor);
 
         // Nó raiz
         return null;
@@ -39,26 +43,32 @@ public class Arvore {
     private No inserir(No no, int valor){
         if(no == null) return null;
 
+        // encontrado local para inserir
         if(no.valor > valor && no.filhoEsquerdo == null) {
             no.adicionarFilhoEsquerdo(new No(valor, null, null, 0, 0));
             return no;
         }
 
+        // encontrado local para inserir
         if(no.valor < valor && no.filhoDireito == null) {
             no.adicionarFilhoDireito(new No(valor, null, null, 0, 0));
             return no;
         }
 
+        // procurando local para inserir na subárvore
         if(no.valor > valor) {
             No noRetorno = inserir(no.filhoEsquerdo, valor);
-            if(no.filhoEsquerdo.valor == noRetorno.valor) no.nivelEsquerdo = noRetorno.maiorNivelSubArvore() + 1;
+            // se houver um retorno, então um nó foi inserido e é preciso ajustar o nível
+            if(noRetorno != null) no.nivelEsquerdo = noRetorno.maiorNivelSubArvore() + 1;
             balancear(no);
             return no;
         }
 
+        // procurando local para inserir na subárvore
         if(no.valor < valor) {
             No noRetorno = inserir(no.filhoDireito, valor);
-            if(no.filhoDireito.valor == noRetorno.valor) no.nivelDireito = noRetorno.maiorNivelSubArvore() + 1;
+            // se houver um retorno, então um nó foi inserido e é preciso ajustar o nível
+            if(noRetorno != null) no.nivelDireito = noRetorno.maiorNivelSubArvore() + 1;
             balancear(no);
             return no;
         }
@@ -66,6 +76,7 @@ public class Arvore {
         return null;
     }
 
+    // funciona igual a inserir(No no, int valor), porém para nós já existentes
     private No inserir(No no, No noParaInserir, boolean permiteRebalanceamento){
         if(no == null || noParaInserir == null) return null;
 
@@ -81,14 +92,14 @@ public class Arvore {
 
         if(no.valor > noParaInserir.valor) {
             No noRetorno = inserir(no.filhoEsquerdo, noParaInserir, permiteRebalanceamento);
-            if(no.filhoEsquerdo.valor == noRetorno.valor) no.nivelEsquerdo = noRetorno.maiorNivelSubArvore() + 1;
+            if(noRetorno != null) no.nivelEsquerdo = noRetorno.maiorNivelSubArvore() + 1;
             if(permiteRebalanceamento) balancear(no);
             return no;
         }
 
         if(no.valor < noParaInserir.valor) {
             No noRetorno = inserir(no.filhoDireito, noParaInserir, permiteRebalanceamento);
-            if(no.filhoDireito.valor == noRetorno.valor) no.nivelDireito = noRetorno.maiorNivelSubArvore() + 1;
+            if(noRetorno != null) no.nivelDireito = noRetorno.maiorNivelSubArvore() + 1;
             if(permiteRebalanceamento) balancear(no);
             return no;
         }
@@ -121,11 +132,9 @@ public class Arvore {
             no = pai.filhoDireito;
         }
 
-        if(no == null) {
-            System.out.println("Nó não encontrado.");
-            return;
-        }
+        if(no == null) return;
 
+        // remoção da raiz
         if(pai == null){
             No maior = no.getMaiorSubArvore();
             No menor = no.getMenorSubArvore();
@@ -164,28 +173,42 @@ public class Arvore {
         return no.maiorNivelSubArvore();
     }
 
-    // nomear melhor
     private void rotacaoSimplesDireita(No no, boolean permiteRebalanceamento) {
         if(no == null)  return;
-        No antigoDireito =  no.filhoEsquerdo == null ? null : no.filhoEsquerdo.filhoDireito;
+
+        // remove o nó desbalanceado
         remover(no.valor, false);
+
+        // extrai o filho direito do nó substituto
+        No filhoDireitoSubstituto =  no.filhoEsquerdo == null ? null : no.filhoEsquerdo.filhoDireito;
         if(no.filhoEsquerdo != null) no.filhoEsquerdo.adicionarFilhoDireito(null);
+
+        // insere o nó substituto e atualiza o nó desbalanceado
         inserir(raiz, no.filhoEsquerdo, permiteRebalanceamento);
         no.adicionarFilhoEsquerdo(null);
+
+        // insere o nó desbalanceado e o filho direito do nó substituto
         inserir(raiz, no, permiteRebalanceamento);
-        inserir(raiz, antigoDireito, permiteRebalanceamento);
+        inserir(raiz, filhoDireitoSubstituto, permiteRebalanceamento);
     }
 
-    // nomear melhor
     private void rotacaoSimplesEsquerda(No no, boolean permiteRebalanceamento) {
         if(no == null)  return;
-        No antigoEsquerdo =  no.filhoDireito == null ? null : no.filhoDireito.filhoEsquerdo;
+
+        // remove o nó desbalanceado
         remover(no.valor, false);
+
+        // extrai o filho esquerdo do nó substituto
+        No filhoEsquerdoSubstituto =  no.filhoDireito == null ? null : no.filhoDireito.filhoEsquerdo;
         if(no.filhoDireito != null) no.filhoDireito.adicionarFilhoEsquerdo(null);
+
+        // insere o nó substituto e atualiza o nó desbalanceado
         inserir(raiz, no.filhoDireito, permiteRebalanceamento);
         no.adicionarFilhoDireito(null);
+
+        // insere o nó desbalanceado e o filho esquerdo do nó substituto
         inserir(raiz, no, permiteRebalanceamento);
-        inserir(raiz, antigoEsquerdo, permiteRebalanceamento);
+        inserir(raiz, filhoEsquerdoSubstituto, permiteRebalanceamento);
     }
 
     public void balancear(No no) {
@@ -201,9 +224,13 @@ public class Arvore {
         else if (Utils.ehNegativoOuZero(fb) && Utils.ehNegativoOuZero(fbd) && fb < fbd) {
             rotacaoSimplesEsquerda(no, true);
         } else if (Utils.ehPositivoOuZero(fb) && Utils.ehNegativoOuZero(fbe)) {
+            // o permite rebalanceamento é falso pois nessa primeira etapa a árvore ainda não fica balanceada
+            // então é preciso aguardar a finalização das duas etapas
             rotacaoSimplesEsquerda(no.filhoEsquerdo, false);
             rotacaoSimplesDireita(no, true);
         } else if (Utils.ehNegativoOuZero(fb) && Utils.ehPositivoOuZero(fbd)) {
+            // o permite rebalanceamento é falso pois nessa primeira etapa a árvore ainda não fica balanceada
+            // então é preciso aguardar a finalização das duas etapas
             rotacaoSimplesDireita(no.filhoDireito, false);
             rotacaoSimplesEsquerda(no, true);
         }

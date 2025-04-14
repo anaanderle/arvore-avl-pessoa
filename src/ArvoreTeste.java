@@ -114,4 +114,9 @@ class ArvoreTeste {
         String preOrdemEsperada = "40 20 10 30 50";
         baseTeste(new int[]{10, 20, 30, 40, 50, 60, 70}, new int[]{60, 70}, preOrdemEsperada, "caso10");
     }
+
+    public static void caso11() {
+        String preOrdemEsperada = "20 10 30";
+        baseTeste(new int[]{10, 20, 30, 10}, new int[]{}, preOrdemEsperada, "caso11");
+    }
 }
