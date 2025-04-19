@@ -17,13 +17,13 @@ public class No {
         String filhoEsquerdoString = this.filhoEsquerdo == null ? "null" : String.valueOf(this.filhoEsquerdo.valor);
         String filhoDireitoString = this.filhoDireito == null ? "null" : String.valueOf(this.filhoDireito.valor);
 
-        return "No{" +
-                "\n\tvalor=" + valor +
-                "\n\tfilhoEsquerdo=" + filhoEsquerdoString +
-                "\n\tfilhoDireito=" + filhoDireitoString +
-                "\n\tnivelEsquerdo=" + nivelEsquerdo +
-                "\n\tnivelDireito=" + nivelDireito +
-                "\n\tfatorBalanceamento=" + fatorBalanceamento() +
+        return "No {" +
+                "\n\tValor = " + valor +
+                "\n\tFilho Esquerdo = " + filhoEsquerdoString +
+                "\n\tFilho Direito = " + filhoDireitoString +
+                "\n\tNivel Esquerdo = " + nivelEsquerdo +
+                "\n\tNivel Direito = " + nivelDireito +
+                "\n\tFator Balanceamento = " + fatorBalanceamento() +
                 "\n}";
     }
 
