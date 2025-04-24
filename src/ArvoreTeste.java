@@ -1,5 +1,28 @@
 class ArvoreTeste {
 
+    public static void testar(){
+        rotacaoSimplesDireitaSlide13();
+        rotacaoSimplesDireitaSlide18();
+        rotacaoSimplesEsquerdaSlide20();
+        rotacaoSimplesEsquerdaSlide23();
+        rotacaoDuplaDireitaSlide25();
+        rotacaoDuplaDireitaSlide29();
+        rotacaoDuplaEsquerdaSlide32();
+        exclusaoSlide38SemExcluir();
+        exclusaoSlide38();
+        caso1();
+        caso2();
+        caso3();
+        caso4();
+        caso5();
+        caso6();
+        caso7();
+        caso8();
+        caso9();
+        caso10();
+        caso11();
+    }
+
     private static void baseTeste(int[] inserirValores, int[] removerValores, String preOrdemEsperada, String nomeTest){
         Arvore arvore = new Arvore(null);
 
