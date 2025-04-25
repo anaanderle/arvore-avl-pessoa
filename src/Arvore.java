@@ -59,7 +59,7 @@ public class Arvore {
         if(no.valor > valor) {
             No noRetorno = inserir(no.filhoEsquerdo, valor);
             // se houver um retorno, então um nó foi inserido e é preciso ajustar o nível
-            if(noRetorno != null) no.nivelEsquerdo = noRetorno.maiorNivelSubArvore() + 1;
+            if(noRetorno != null) no.nivelEsquerdo = buscar(raiz, no.valor).filhoEsquerdo.maiorNivelSubArvore() + 1;
             balancear(no);
             return no;
         }
@@ -68,7 +68,7 @@ public class Arvore {
         if(no.valor < valor) {
             No noRetorno = inserir(no.filhoDireito, valor);
             // se houver um retorno, então um nó foi inserido e é preciso ajustar o nível
-            if(noRetorno != null) no.nivelDireito = noRetorno.maiorNivelSubArvore() + 1;
+            if(noRetorno != null) no.nivelDireito = buscar(raiz, no.valor).filhoDireito.maiorNivelSubArvore() + 1;
             balancear(no);
             return no;
         }
@@ -92,14 +92,14 @@ public class Arvore {
 
         if(no.valor > noParaInserir.valor) {
             No noRetorno = inserir(no.filhoEsquerdo, noParaInserir, permiteRebalanceamento);
-            if(noRetorno != null) no.nivelEsquerdo = noRetorno.maiorNivelSubArvore() + 1;
+            if(noRetorno != null) no.nivelEsquerdo = buscar(raiz, no.valor).filhoEsquerdo.maiorNivelSubArvore() + 1;
             if(permiteRebalanceamento) balancear(no);
             return no;
         }
 
         if(no.valor < noParaInserir.valor) {
             No noRetorno = inserir(no.filhoDireito, noParaInserir, permiteRebalanceamento);
-            if(noRetorno != null) no.nivelDireito = noRetorno.maiorNivelSubArvore() + 1;
+            if(noRetorno != null) no.nivelDireito = buscar(raiz, no.valor).filhoDireito.maiorNivelSubArvore() + 1;
             if(permiteRebalanceamento) balancear(no);
             return no;
         }
@@ -297,7 +297,7 @@ public class Arvore {
             System.out.print("\t");
         }
 
-        System.out.println(no.valor + " (" + no.fatorBalanceamento() + ")");
+        System.out.println(no.valor + " (" + no.fatorBalanceamento() + ") + (" + no.nivelEsquerdo + "," + no.nivelDireito + ")");
 
         printar(no.filhoEsquerdo, nivel + 1);
         printar(no.filhoDireito, nivel + 1);
