@@ -22,7 +22,7 @@ public class Main {
             switch (opcao) {
                 case 1:
                     System.out.print("Digite o valor da raiz: ");
-                    int valorRaiz = scanner.nextInt();
+                    String valorRaiz = scanner.next();
                     arvore = new Arvore(new No(valorRaiz, null, null, 0, 0));
                     System.out.println("Árvore criada com raiz: " + valorRaiz);
                     break;
@@ -33,7 +33,7 @@ public class Main {
                         break;
                     }
                     System.out.print("Digite o valor a ser buscado: ");
-                    int valorBusca = scanner.nextInt();
+                    String valorBusca = scanner.next();
                     No noEncontrado = arvore.buscar(valorBusca);
                     if (noEncontrado != null) {
                         arvore.printar();
@@ -49,7 +49,7 @@ public class Main {
                         break;
                     }
                     System.out.print("Digite o valor a ser inserido: ");
-                    int valorInserir = scanner.nextInt();
+                    String valorInserir = scanner.next();
                     arvore.inserir(valorInserir);
                     System.out.println("Valor " + valorInserir + " inserido.");
                     arvore.printar();
@@ -61,7 +61,7 @@ public class Main {
                         break;
                     }
                     System.out.print("Digite o valor a ser excluído: ");
-                    int valorExcluir = scanner.nextInt();
+                    String valorExcluir = scanner.next();
                     arvore.remover(valorExcluir);
                     System.out.println("Valor " + valorExcluir + " removido.");
                     arvore.printar();

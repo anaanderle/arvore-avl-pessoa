@@ -6,69 +6,69 @@ public class Arvore {
         this.raiz = raiz;
     }
 
-    public No buscar(int valor) {
-        return buscar(raiz, valor);
+    public No buscar(String index) {
+        return buscar(raiz, index);
     }
 
-    private No buscar(No no, int valor) {
+    private No buscar(No no, String index) {
         if(no == null) return null;
 
-        if(no.valor == valor) return no;
-        if(no.filhoEsquerdo != null && no.valor >= valor) return buscar(no.filhoEsquerdo, valor);
-        if(no.filhoDireito != null && no.valor <= valor) return buscar(no.filhoDireito, valor);
+        if(no.index.equals(index)) return no;
+        if(no.filhoEsquerdo != null && Utils.maiorOuIgual(no.index, index)) return buscar(no.filhoEsquerdo, index);
+        if(no.filhoDireito != null && Utils.menorOuIgual(no.index, index)) return buscar(no.filhoDireito, index);
 
         return null;
     }
 
-    public No buscarPai(int valor) {
-        return buscarPai(raiz, valor);
+    public No buscarPai(String index) {
+        return buscarPai(raiz, index);
     }
 
-    private No buscarPai(No no, int valor) {
+    private No buscarPai(No no, String index) {
         // nó não pode ser pai de ninguém
         if(no == null || (no.filhoDireito == null && no.filhoEsquerdo == null)) return null;
 
         // nó é pai
-        if(no.valor > valor && no.filhoEsquerdo != null && no.filhoEsquerdo.valor == valor) return no;
-        if(no.valor < valor && no.filhoDireito != null && no.filhoDireito.valor == valor) return no;
+        if(Utils.maior(no.index, index) && no.filhoEsquerdo != null && no.filhoEsquerdo.index.equals(index)) return no;
+        if(Utils.menor(no.index, index) && no.filhoDireito != null && no.filhoDireito.index.equals(index)) return no;
 
         // nó não é pai mas possui filhos que podem ser
-        if(no.valor > valor) return buscarPai(no.filhoEsquerdo, valor);
-        if(no.valor < valor) return buscarPai(no.filhoDireito, valor);
+        if(Utils.maior(no.index, index )) return buscarPai(no.filhoEsquerdo, index);
+        if(Utils.menor(no.index, index )) return buscarPai(no.filhoDireito, index);
 
         // Nó raiz
         return null;
     }
 
-    private No inserir(No no, int valor){
+    private No inserir(No no, String index){
         if(no == null) return null;
 
         // encontrado local para inserir
-        if(no.valor > valor && no.filhoEsquerdo == null) {
-            no.adicionarFilhoEsquerdo(new No(valor, null, null, 0, 0));
+        if(Utils.maior(no.index, index ) && no.filhoEsquerdo == null) {
+            no.adicionarFilhoEsquerdo(new No(index, null, null, 0, 0));
             return no;
         }
 
         // encontrado local para inserir
-        if(no.valor < valor && no.filhoDireito == null) {
-            no.adicionarFilhoDireito(new No(valor, null, null, 0, 0));
+        if(Utils.menor(no.index, index ) && no.filhoDireito == null) {
+            no.adicionarFilhoDireito(new No(index, null, null, 0, 0));
             return no;
         }
 
         // procurando local para inserir na subárvore
-        if(no.valor > valor) {
-            No noRetorno = inserir(no.filhoEsquerdo, valor);
+        if(Utils.maior(no.index, index)) {
+            No noRetorno = inserir(no.filhoEsquerdo, index);
             // se houver um retorno, então um nó foi inserido e é preciso ajustar o nível
-            if(noRetorno != null) no.nivelEsquerdo = buscar(raiz, no.valor).filhoEsquerdo.maiorNivelSubArvore() + 1;
+            if(noRetorno != null) no.nivelEsquerdo = buscar(raiz, no.index).filhoEsquerdo.maiorNivelSubArvore() + 1;
             balancear(no);
             return no;
         }
 
         // procurando local para inserir na subárvore
-        if(no.valor < valor) {
-            No noRetorno = inserir(no.filhoDireito, valor);
+        if(Utils.menor(no.index, index)) {
+            No noRetorno = inserir(no.filhoDireito, index);
             // se houver um retorno, então um nó foi inserido e é preciso ajustar o nível
-            if(noRetorno != null) no.nivelDireito = buscar(raiz, no.valor).filhoDireito.maiorNivelSubArvore() + 1;
+            if(noRetorno != null) no.nivelDireito = buscar(raiz, no.index).filhoDireito.maiorNivelSubArvore() + 1;
             balancear(no);
             return no;
         }
@@ -80,26 +80,26 @@ public class Arvore {
     private No inserir(No no, No noParaInserir, boolean permiteRebalanceamento){
         if(no == null || noParaInserir == null) return null;
 
-        if(no.valor > noParaInserir.valor && no.filhoEsquerdo == null) {
+        if(Utils.maior(no.index, noParaInserir.index) && no.filhoEsquerdo == null) {
             no.adicionarFilhoEsquerdo(noParaInserir);
             return no;
         }
 
-        if(no.valor < noParaInserir.valor && no.filhoDireito == null) {
+        if(Utils.menor(no.index, noParaInserir.index) && no.filhoDireito == null) {
             no.adicionarFilhoDireito(noParaInserir);
             return no ;
         }
 
-        if(no.valor > noParaInserir.valor) {
+        if(Utils.maior(no.index, noParaInserir.index)) {
             No noRetorno = inserir(no.filhoEsquerdo, noParaInserir, permiteRebalanceamento);
-            if(noRetorno != null) no.nivelEsquerdo = buscar(raiz, no.valor).filhoEsquerdo.maiorNivelSubArvore() + 1;
+            if(noRetorno != null) no.nivelEsquerdo = buscar(raiz, no.index).filhoEsquerdo.maiorNivelSubArvore() + 1;
             if(permiteRebalanceamento) balancear(no);
             return no;
         }
 
-        if(no.valor < noParaInserir.valor) {
+        if(Utils.menor(no.index, noParaInserir.index)) {
             No noRetorno = inserir(no.filhoDireito, noParaInserir, permiteRebalanceamento);
-            if(noRetorno != null) no.nivelDireito = buscar(raiz, no.valor).filhoDireito.maiorNivelSubArvore() + 1;
+            if(noRetorno != null) no.nivelDireito = buscar(raiz, no.index).filhoDireito.maiorNivelSubArvore() + 1;
             if(permiteRebalanceamento) balancear(no);
             return no;
         }
@@ -107,26 +107,26 @@ public class Arvore {
         return null;
     }
 
-    public void inserir(int valor) {
+    public void inserir(String index) {
         if(raiz == null){
-            raiz = new No(valor, null, null, 0, 0);
+            raiz = new No(index, null, null, 0, 0);
             return;
         }
 
-        inserir(raiz, valor);
+        inserir(raiz, index);
     }
 
-    public void remover(int valor) {
-        remover(valor, true);
+    public void remover(String index) {
+        remover(index, true);
     }
 
-    private void remover(int valor, boolean conectarFilhos) {
-        No pai = buscarPai(valor);
+    private void remover(String index, boolean conectarFilhos) {
+        No pai = buscarPai(index);
         No no;
 
         if(pai == null){
             no = raiz;
-        } else if(pai.filhoEsquerdo != null && pai.filhoEsquerdo.valor == valor){
+        } else if(pai.filhoEsquerdo != null && pai.filhoEsquerdo.index.equals(index)){
             no = pai.filhoEsquerdo;
         } else {
             no = pai.filhoDireito;
@@ -177,7 +177,7 @@ public class Arvore {
         if(no == null)  return;
 
         // remove o nó desbalanceado
-        remover(no.valor, false);
+        remover(no.index, false);
 
         // extrai o filho direito do nó substituto
         No filhoDireitoSubstituto =  no.filhoEsquerdo == null ? null : no.filhoEsquerdo.filhoDireito;
@@ -196,7 +196,7 @@ public class Arvore {
         if(no == null)  return;
 
         // remove o nó desbalanceado
-        remover(no.valor, false);
+        remover(no.index, false);
 
         // extrai o filho esquerdo do nó substituto
         No filhoEsquerdoSubstituto =  no.filhoDireito == null ? null : no.filhoDireito.filhoEsquerdo;
@@ -243,7 +243,7 @@ public class Arvore {
     public String obterPreOrdem(No no){
         if (no == null) return "";
 
-        return (no.valor + " ") + obterPreOrdem(no.filhoEsquerdo) + obterPreOrdem(no.filhoDireito);
+        return (no.index + " ") + obterPreOrdem(no.filhoEsquerdo) + obterPreOrdem(no.filhoDireito);
     }
 
     public void listarPreOrdem() {
@@ -254,7 +254,7 @@ public class Arvore {
     private void listarPreOrdem(No no) {
         if (no == null) return;
 
-        System.out.print(no.valor + " ");
+        System.out.print(no.index + " ");
 
         listarPreOrdem(no.filhoEsquerdo);
         listarPreOrdem(no.filhoDireito);
@@ -270,7 +270,7 @@ public class Arvore {
 
         listarPosOrdem(no.filhoEsquerdo);
         listarPosOrdem(no.filhoDireito);
-        System.out.print(no.valor + " ");
+        System.out.print(no.index + " ");
     }
 
     public void listarEmOrdem() {
@@ -282,7 +282,7 @@ public class Arvore {
         if (no == null) return;
 
         listarEmOrdem(no.filhoEsquerdo);
-        System.out.print(no.valor + " ");
+        System.out.print(no.index + " ");
         listarEmOrdem(no.filhoDireito);
     }
 
@@ -297,7 +297,7 @@ public class Arvore {
             System.out.print("\t");
         }
 
-        System.out.println(no.valor + " (" + no.fatorBalanceamento() + ") + (" + no.nivelEsquerdo + "," + no.nivelDireito + ")");
+        System.out.println(no.index + " (" + no.fatorBalanceamento() + ") (" + no.nivelEsquerdo + "," + no.nivelDireito + ")");
 
         printar(no.filhoEsquerdo, nivel + 1);
         printar(no.filhoDireito, nivel + 1);

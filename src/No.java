@@ -1,12 +1,13 @@
 public class No {
-    public int valor;
+    public String index;
+
     public No filhoEsquerdo;
     public No filhoDireito;
     public int nivelEsquerdo;
     public int nivelDireito;
 
-    public No(int valor, No filhoEsquerdo, No filhoDireito, int nivelEsquerdo, int nivelDireito) {
-        this.valor = valor;
+    public No(String index, No filhoEsquerdo, No filhoDireito, int nivelEsquerdo, int nivelDireito) {
+        this.index = index;
         this.filhoEsquerdo = filhoEsquerdo;
         this.filhoDireito = filhoDireito;
         this.nivelEsquerdo = nivelEsquerdo;
@@ -14,11 +15,11 @@ public class No {
     }
 
     public String toString() {
-        String filhoEsquerdoString = this.filhoEsquerdo == null ? "null" : String.valueOf(this.filhoEsquerdo.valor);
-        String filhoDireitoString = this.filhoDireito == null ? "null" : String.valueOf(this.filhoDireito.valor);
+        String filhoEsquerdoString = this.filhoEsquerdo == null ? "null" : this.filhoEsquerdo.index;
+        String filhoDireitoString = this.filhoDireito == null ? "null" : this.filhoDireito.index;
 
         return "No {" +
-                "\n\tValor = " + valor +
+                "\n\tIndex = " + index +
                 "\n\tFilho Esquerdo = " + filhoEsquerdoString +
                 "\n\tFilho Direito = " + filhoDireitoString +
                 "\n\tNivel Esquerdo = " + nivelEsquerdo +
@@ -28,7 +29,7 @@ public class No {
     }
 
     public void removerFilho(No filho){
-        if(filho != null && filhoEsquerdo != null && filhoEsquerdo.valor == filho.valor) {
+        if(filho != null && filhoEsquerdo != null && filhoEsquerdo.index.equals(filho.index)) {
             filhoEsquerdo = null;
             nivelEsquerdo = 0;
             return;
