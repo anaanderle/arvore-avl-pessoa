@@ -3,6 +3,9 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
+
+
+
         Scanner scanner = new Scanner(System.in);
         Arvore arvore = null;
 
@@ -23,7 +26,7 @@ public class Main {
                 case 1:
                     System.out.print("Digite o valor da raiz: ");
                     String valorRaiz = scanner.next();
-                    arvore = new Arvore(new No(valorRaiz, null, null, 0, 0));
+                    arvore = new Arvore(new No(valorRaiz, null, null, 0, 0, new Pessoa()));
                     System.out.println("Árvore criada com raiz: " + valorRaiz);
                     break;
 
@@ -50,7 +53,7 @@ public class Main {
                     }
                     System.out.print("Digite o valor a ser inserido: ");
                     String valorInserir = scanner.next();
-                    arvore.inserir(valorInserir);
+                    arvore.inserir(valorInserir, new Pessoa());
                     System.out.println("Valor " + valorInserir + " inserido.");
                     arvore.printar();
                     break;
@@ -98,6 +101,21 @@ public class Main {
                     System.out.println("Saindo...");
                     scanner.close();
                     return;
+
+                case 9:
+                    if (arvore == null) {
+                        System.out.println("Árvore não criada.");
+                        break;
+                    }
+                    System.out.println("Busca inicial:");
+                    String aa = scanner.next();
+                    String bb = scanner.next();
+                    No[] nos = arvore.buscarIntervalo(aa, bb);
+
+                    for (No no : nos) {
+                        System.out.println(no.index);
+                    }
+                    break;
 
                 default:
                     System.out.println("Opção inválida. Tente novamente.");

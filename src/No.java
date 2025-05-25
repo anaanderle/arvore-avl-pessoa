@@ -1,17 +1,21 @@
+import java.time.LocalDate;
+
 public class No {
     public String index;
+    public Pessoa pessoa;
 
     public No filhoEsquerdo;
     public No filhoDireito;
     public int nivelEsquerdo;
     public int nivelDireito;
 
-    public No(String index, No filhoEsquerdo, No filhoDireito, int nivelEsquerdo, int nivelDireito) {
+    public No(String index, No filhoEsquerdo, No filhoDireito, int nivelEsquerdo, int nivelDireito, Pessoa pessoa) {
         this.index = index;
         this.filhoEsquerdo = filhoEsquerdo;
         this.filhoDireito = filhoDireito;
         this.nivelEsquerdo = nivelEsquerdo;
         this.nivelDireito = nivelDireito;
+        this.pessoa = pessoa;
     }
 
     public String toString() {

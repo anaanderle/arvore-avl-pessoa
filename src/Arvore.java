@@ -6,6 +6,58 @@ public class Arvore {
         this.raiz = raiz;
     }
 
+    public No[] buscarInicial(String index) {
+        return buscarInicial(raiz, index);
+    }
+
+    private No[] buscarInicial(No no, String index) {
+        if(no == null) return new No[]{};
+
+        if(no.index.equals(index)) {
+            return Utils.concatenar(no, buscarInicial(no.filhoDireito, index));
+        }
+
+        if(no.index.startsWith(index)) {
+            No[] nosEsquerdos = buscarInicial(no.filhoEsquerdo, index);
+            No[] nosDiretos = buscarInicial(no.filhoDireito, index);
+            return Utils.concatenar(no, nosEsquerdos, nosDiretos);
+        }
+
+        if(Utils.menor(no.index, index)) {
+            return buscarInicial(no.filhoDireito, index);
+        }
+
+        if(Utils.maior(no.index, index)) {
+            return buscarInicial(no.filhoEsquerdo, index);
+        }
+
+        return new No[]{};
+    }
+
+    public No[] buscarIntervalo(String indexInicial, String indexFinal) {
+        return buscarIntervalo(raiz, indexInicial, indexFinal);
+    }
+
+    private No[] buscarIntervalo(No no, String indexInicial, String indexFinal) {
+        if(no == null) return new No[]{};
+
+        if(no.index.equals(indexInicial)) {
+            return Utils.concatenar(no, buscarIntervalo(no.filhoDireito, indexInicial, indexFinal));
+        }
+
+        if(Utils.menor(no.index, indexInicial)) {
+            return buscarIntervalo(no.filhoDireito, indexInicial, indexFinal);
+        }
+
+        if(Utils.maior(no.index, indexFinal)) {
+            return  buscarIntervalo(no.filhoEsquerdo, indexInicial, indexFinal);
+        }
+
+        No[] nosEsquerdos = buscarIntervalo(no.filhoEsquerdo, indexInicial, indexFinal);
+        No[] nosDiretos = buscarIntervalo(no.filhoDireito, indexInicial, indexFinal);
+        return Utils.concatenar(no, nosEsquerdos, nosDiretos);
+    }
+
     public No buscar(String index) {
         return buscar(raiz, index);
     }
@@ -40,24 +92,24 @@ public class Arvore {
         return null;
     }
 
-    private No inserir(No no, String index){
+    private No inserir(No no, String index, Pessoa pessoa){
         if(no == null) return null;
 
         // encontrado local para inserir
         if(Utils.maior(no.index, index ) && no.filhoEsquerdo == null) {
-            no.adicionarFilhoEsquerdo(new No(index, null, null, 0, 0));
+            no.adicionarFilhoEsquerdo(new No(index, null, null, 0, 0, pessoa));
             return no;
         }
 
         // encontrado local para inserir
         if(Utils.menor(no.index, index ) && no.filhoDireito == null) {
-            no.adicionarFilhoDireito(new No(index, null, null, 0, 0));
+            no.adicionarFilhoDireito(new No(index, null, null, 0, 0, pessoa));
             return no;
         }
 
         // procurando local para inserir na subárvore
         if(Utils.maior(no.index, index)) {
-            No noRetorno = inserir(no.filhoEsquerdo, index);
+            No noRetorno = inserir(no.filhoEsquerdo, index, pessoa);
             // se houver um retorno, então um nó foi inserido e é preciso ajustar o nível
             if(noRetorno != null) no.nivelEsquerdo = buscar(raiz, no.index).filhoEsquerdo.maiorNivelSubArvore() + 1;
             balancear(no);
@@ -66,7 +118,7 @@ public class Arvore {
 
         // procurando local para inserir na subárvore
         if(Utils.menor(no.index, index)) {
-            No noRetorno = inserir(no.filhoDireito, index);
+            No noRetorno = inserir(no.filhoDireito, index, pessoa);
             // se houver um retorno, então um nó foi inserido e é preciso ajustar o nível
             if(noRetorno != null) no.nivelDireito = buscar(raiz, no.index).filhoDireito.maiorNivelSubArvore() + 1;
             balancear(no);
@@ -107,13 +159,13 @@ public class Arvore {
         return null;
     }
 
-    public void inserir(String index) {
+    public void inserir(String index, Pessoa pessoa) {
         if(raiz == null){
-            raiz = new No(index, null, null, 0, 0);
+            raiz = new No(index, null, null, 0, 0, pessoa);
             return;
         }
 
-        inserir(raiz, index);
+        inserir(raiz, index, pessoa);
     }
 
     public void remover(String index) {
@@ -297,7 +349,7 @@ public class Arvore {
             System.out.print("\t");
         }
 
-        System.out.println(no.index + " (" + no.fatorBalanceamento() + ") (" + no.nivelEsquerdo + "," + no.nivelDireito + ")");
+        System.out.println(no.index + " (" + no.fatorBalanceamento() + ")");
 
         printar(no.filhoEsquerdo, nivel + 1);
         printar(no.filhoDireito, nivel + 1);

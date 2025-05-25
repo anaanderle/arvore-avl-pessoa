@@ -27,7 +27,7 @@ class ArvoreTeste {
         Arvore arvore = new Arvore(null);
 
         for(String valor : inserirValores){
-            arvore.inserir(valor);
+            arvore.inserir(valor, new Pessoa());
         }
 
         for(String valor : removerValores){
