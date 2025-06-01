@@ -1,29 +1,29 @@
 import java.time.LocalDate;
 
 public class No {
-    public String index;
-    public Pessoa pessoa;
+    public String valor;
+    public int[] indexes;
 
     public No filhoEsquerdo;
     public No filhoDireito;
     public int nivelEsquerdo;
     public int nivelDireito;
 
-    public No(String index, No filhoEsquerdo, No filhoDireito, int nivelEsquerdo, int nivelDireito, Pessoa pessoa) {
-        this.index = index;
+    public No(String valor, No filhoEsquerdo, No filhoDireito, int nivelEsquerdo, int nivelDireito, int[] indexes) {
+        this.valor = valor;
         this.filhoEsquerdo = filhoEsquerdo;
         this.filhoDireito = filhoDireito;
         this.nivelEsquerdo = nivelEsquerdo;
         this.nivelDireito = nivelDireito;
-        this.pessoa = pessoa;
+        this.indexes = indexes;
     }
 
     public String toString() {
-        String filhoEsquerdoString = this.filhoEsquerdo == null ? "null" : this.filhoEsquerdo.index;
-        String filhoDireitoString = this.filhoDireito == null ? "null" : this.filhoDireito.index;
+        String filhoEsquerdoString = this.filhoEsquerdo == null ? "null" : this.filhoEsquerdo.valor;
+        String filhoDireitoString = this.filhoDireito == null ? "null" : this.filhoDireito.valor;
 
         return "No {" +
-                "\n\tIndex = " + index +
+                "\n\tvalor = " + valor +
                 "\n\tFilho Esquerdo = " + filhoEsquerdoString +
                 "\n\tFilho Direito = " + filhoDireitoString +
                 "\n\tNivel Esquerdo = " + nivelEsquerdo +
@@ -33,7 +33,7 @@ public class No {
     }
 
     public void removerFilho(No filho){
-        if(filho != null && filhoEsquerdo != null && filhoEsquerdo.index.equals(filho.index)) {
+        if(filho != null && filhoEsquerdo != null && filhoEsquerdo.valor.equals(filho.valor)) {
             filhoEsquerdo = null;
             nivelEsquerdo = 0;
             return;

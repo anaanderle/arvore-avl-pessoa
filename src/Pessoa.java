@@ -6,11 +6,11 @@ public class Pessoa {
     public String rg;
     public String nome;
     public LocalDate dataNascimento;
-    public LocalDate cidadeNascimento;
+    public String cidadeNascimento;
 
     public Pessoa(){}
 
-    public Pessoa(String cpf, String rg, String nome, LocalDate dataNascimento, LocalDate cidadeNascimento) {
+    public Pessoa(String cpf, String rg, String nome, LocalDate dataNascimento, String cidadeNascimento) {
         this.cpf = cpf;
         this.rg = rg;
         this.nome = nome;
