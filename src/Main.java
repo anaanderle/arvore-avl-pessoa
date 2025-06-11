@@ -25,6 +25,9 @@ public class Main {
             System.out.println("1. Consultar pessoa por CPF");
             System.out.println("2. Consultar pessoas por início do nome");
             System.out.println("3. Consultar pessoas por intervalo de datas de nascimento");
+            System.out.println("4. Exibir árvore de CPF");
+            System.out.println("5. Exibir árvore de nome");
+            System.out.println("6. Exibir árvore de data de nascimento");
             System.out.println("0. Sair");
             System.out.print("Escolha uma opção: ");
             if (!scanner.hasNextInt()) {
@@ -58,28 +61,18 @@ public class Main {
                     No[] nosData = arvoreDataNascimento.buscarIntervalo(dataIni, dataFim);
                     Pessoa.listar(pessoas, nosData);
                     break;
+                case 4:
+                    arvoreCpf.printar();
+                    break;
+                case 5:
+                    arvoreNome.printar();
+                    break;
+                case 6:
+                    arvoreDataNascimento.printar();
+                    break;
                 default:
                     System.out.println("Opção inválida.");
             }
         }
-//        scanner = new Scanner(System.in);
-//
-//        arvoreCpf.printar();
-//        arvoreNome.printar();
-//        arvoreDataNascimento.printar();
-//
-//        No[] nos = arvoreDataNascimento.buscarIntervalo("1972-01-02", "2992-12-25");
-//
-//        int[] todosIndexes = new int[]{};
-//        for (int i = 0; i < nos.length; i++) {
-//            int[] indexes = nos[i].indexes;
-//            todosIndexes = Utils.concatenar(todosIndexes, indexes);
-//        }
-//
-//        for (int i = 0; i < todosIndexes.length; i++) {
-//            Pessoa pessoa = pessoas.get(todosIndexes[i]);
-//            // fazer função de print em pessoa
-//            System.out.println("Pessoa encontrada: " + pessoa.nome + " - " + pessoa.cpf + " - " + pessoa.dataNascimento);
-//        }
     }
 }

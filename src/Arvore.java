@@ -358,7 +358,7 @@ public class Arvore {
             System.out.print("\t");
         }
 
-        System.out.println(no.valor + " (" + no.fatorBalanceamento() + ")" + Arrays.toString(no.indexes));
+        System.out.println(no.valor + " (" + no.fatorBalanceamento() + ")");
 
         printar(no.filhoEsquerdo, nivel + 1);
         printar(no.filhoDireito, nivel + 1);
